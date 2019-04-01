@@ -20,10 +20,8 @@ use crate::renderer::Renderer;
 use crate::universe::Universe;
 
 fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) {
-    fn do_request_animation_frame(window: &Window, closure_rc: &Rc<RefCell<Option<Closure<dyn FnMut(f64)>>>>) {
-        window
-            .request_animation_frame(closure_rc.borrow().as_ref().unwrap().as_ref().unchecked_ref())
-            .unwrap();
+    fn do_request_animation_frame(window: &Window, f: &Closure<FnMut(f64)>) {
+        window.request_animation_frame(f.as_ref().unchecked_ref()).unwrap();
     }
 
     let closure_rc_0 = Rc::new(RefCell::new(None));
@@ -37,11 +35,11 @@ fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) 
         move |timestamp| {
             f(timestamp);
 
-            do_request_animation_frame(&window, &closure_rc_0);
+            do_request_animation_frame(&window, closure_rc_0.borrow().as_ref().unwrap());
         }
-    }) as Box<FnMut(f64)>));
+    }) as _));
 
-    do_request_animation_frame(&window, &closure_rc_1);
+    do_request_animation_frame(&window, closure_rc_1.borrow().as_ref().unwrap());
 }
 
 fn run_and_render_universe<U: Universe, R: Renderer>(
@@ -58,20 +56,6 @@ fn run_and_render_universe<U: Universe, R: Renderer>(
         renderer.render(timestamp, &context, canvas_width, canvas_height, &mut universe);
     });
 }
-
-// FOR DEBUGGING ====>
-
-// #[wasm_bindgen]
-// extern "C" {
-//     #[wasm_bindgen(js_namespace = console)]
-//     fn log(s: &str);
-// }
-
-// fn dbg<T: std::fmt::Debug>(o: T) {
-//     log(&format!("{:?}", o));
-// }
-
-// FOR DEBUGGING <====
 
 fn main(window: Window, document: Document) {
     let (context, canvas_width, canvas_height) = {

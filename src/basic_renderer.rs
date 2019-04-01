@@ -21,7 +21,7 @@ impl Renderer for BasicRenderer {
         universe: &mut U,
     ) {
         for _ in 0..10 {
-            for _ in 0..100_00 {
+            for _ in 0..10_000 {
                 universe.advance(0.00001);
             }
 
