@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use wasm_bindgen::prelude::{wasm_bindgen, Closure};
 use wasm_bindgen::JsCast;
-use web_sys::{CanvasRenderingContext2d, Document, Event, HtmlCanvasElement, Window};
+use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, Window};
 
 mod basic_renderer;
 mod renderer;
@@ -44,33 +44,6 @@ fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) 
     do_request_animation_frame(&window, &closure_rc_1);
 }
 
-fn register_resize_event(window: &Window, canvas: HtmlCanvasElement, canvas_width: f64, canvas_height: f64) {
-    let update_canvas = Closure::wrap(Box::new({
-        let window = window.clone();
-
-        move || {
-            let view_width = window.inner_width().unwrap().as_f64().unwrap();
-            let view_height = window.inner_height().unwrap().as_f64().unwrap();
-
-            canvas
-                .style()
-                .set_property(
-                    "transform",
-                    &format!("scale({}, {})", canvas_width / view_width, canvas_height / view_height),
-                )
-                .unwrap();
-        }
-    }) as Box<dyn Fn()>);
-
-    window
-        .add_event_listener_with_callback("resize", update_canvas.as_ref().unchecked_ref())
-        .unwrap();
-
-    update_canvas.forget();
-
-    window.dispatch_event(&Event::new("resize").unwrap()).unwrap();
-}
-
 fn run_and_render_universe<U: Universe, R: Renderer>(
     window: &Window,
     canvas_width: f64,
@@ -79,7 +52,7 @@ fn run_and_render_universe<U: Universe, R: Renderer>(
     mut universe: U,
     mut renderer: R,
 ) {
-    renderer.reset_canvas_context(&context);
+    renderer.initialize_canvas_context(&context);
 
     run_animation_frame_loop(&window, move |timestamp| {
         renderer.render(timestamp, &context, canvas_width, canvas_height, &mut universe);
@@ -101,7 +74,7 @@ fn run_and_render_universe<U: Universe, R: Renderer>(
 // FOR DEBUGGING <====
 
 fn main(window: Window, document: Document) {
-    let (canvas, context, canvas_width, canvas_height) = {
+    let (context, canvas_width, canvas_height) = {
         let canvas = document
             .get_element_by_id("canvas")
             .unwrap()
@@ -116,8 +89,6 @@ fn main(window: Window, document: Document) {
         canvas.set_width((canvas_width * dpi).round() as _);
         canvas.set_height((canvas_height * dpi).round() as _);
 
-        canvas.style().set_property("transform-origin", "center").unwrap();
-
         let context = canvas
             .get_context("2d")
             .unwrap()
@@ -126,12 +97,10 @@ fn main(window: Window, document: Document) {
             .unwrap();
 
         context.scale(dpi, dpi).unwrap();
-
         context.translate(canvas_width * 0.5, canvas_height * 0.5).unwrap();
-        (canvas, context, canvas_width, canvas_height)
-    };
 
-    register_resize_event(&window, canvas, canvas_width, canvas_height);
+        (context, canvas_width, canvas_height)
+    };
 
     let universe = BasicUniverse::new(&[
         Body::new(20000.0, Vector2::new(0.0, 0.0), Vector2::new(2.0, 3.0)),
@@ -149,9 +118,7 @@ pub fn start() {
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
 
-    if document.ready_state() == "complete" {
-        main(window, document);
-    } else {
+    if document.ready_state() == "loading" {
         document
             .add_event_listener_with_callback(
                 "DOMContentLoaded",
@@ -163,5 +130,7 @@ pub fn start() {
                 .unchecked_ref(),
             )
             .unwrap();
+    } else {
+        main(window, document);
     }
 }

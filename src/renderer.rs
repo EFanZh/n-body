@@ -11,5 +11,5 @@ pub trait Renderer: 'static {
         universe: &mut U,
     );
 
-    fn reset_canvas_context(&self, context: &CanvasRenderingContext2d);
+    fn initialize_canvas_context(&self, context: &CanvasRenderingContext2d);
 }

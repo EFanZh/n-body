@@ -31,7 +31,7 @@ impl Renderer for BasicRenderer {
         }
     }
 
-    fn reset_canvas_context(&self, context: &CanvasRenderingContext2d) {
+    fn initialize_canvas_context(&self, context: &CanvasRenderingContext2d) {
         context.set_fill_style(&JsValue::from_str("black"));
     }
 }
