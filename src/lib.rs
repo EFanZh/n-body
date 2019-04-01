@@ -92,9 +92,9 @@ fn main(window: Window, document: Document) {
     };
 
     let universe = BasicUniverse::new(&[
-        Body::new(20000.0, Vector2::new(0.0, 0.0), Vector2::new(2.0, 3.0)),
-        Body::new(10000.0, Vector2::new(400.0, 0.0), Vector2::new(-4.0, -6.0)),
-        Body::new(1000.0, Vector2::new(0.0, 200.0), Vector2::new(0.0, 0.0)),
+        Body::new(40_000.0, Vector2::new(0.0, 0.0), Vector2::new(-0.8, -0.4)),
+        Body::new(1000.0, Vector2::new(160.0, 0.0), Vector2::new(0.0, 16.0)),
+        Body::new(4000.0, Vector2::new(0.0, 400.0), Vector2::new(8.0, 0.0)),
     ]);
 
     let renderer = BasicRenderer::new();
