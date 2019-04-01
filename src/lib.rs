@@ -89,6 +89,11 @@ fn main(window: Window, document: Document) {
         canvas.set_width((canvas_width * dpi).round() as _);
         canvas.set_height((canvas_height * dpi).round() as _);
 
+        let style = canvas.style();
+
+        style.set_property("width", &format!("{}px", canvas_width)).unwrap();
+        style.set_property("height", &format!("{}px", canvas_height)).unwrap();
+
         let context = canvas
             .get_context("2d")
             .unwrap()

@@ -20,8 +20,8 @@ impl Renderer for BasicRenderer {
         _height: f64,
         universe: &mut U,
     ) {
-        for _ in 0..1 {
-            for _ in 0..100_000 {
+        for _ in 0..10 {
+            for _ in 0..100_00 {
                 universe.advance(0.00001);
             }
 
