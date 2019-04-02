@@ -1,6 +1,6 @@
 use crate::body::Body;
 use crate::universe::Universe;
-use cgmath::InnerSpace;
+use crate::utilities::squared_norm;
 use cgmath::Vector2;
 use itertools::Itertools;
 
@@ -26,8 +26,7 @@ impl Universe for BasicUniverse {
 
         for ((i, body_i), (j, body_j)) in self.bodies.iter().enumerate().tuple_combinations() {
             let distance = body_j.position - body_i.position;
-            let squared_norm = distance.dot(distance);
-            let magnitude = squared_norm.powf(-1.5);
+            let magnitude = squared_norm(distance).powf(-1.5);
 
             self.acceleration_buffer[i] += distance * (body_j.mass * magnitude);
             self.acceleration_buffer[j] -= distance * (body_i.mass * magnitude);
