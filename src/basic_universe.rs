@@ -1,7 +1,6 @@
 use crate::body::Body;
 use crate::universe::Universe;
-use crate::utilities::squared_norm;
-use cgmath::Vector2;
+use cgmath::{InnerSpace, Vector2};
 use itertools::Itertools;
 
 pub struct BasicUniverse {
@@ -26,7 +25,7 @@ impl Universe for BasicUniverse {
 
         for ((i, body_i), (j, body_j)) in self.bodies.iter().enumerate().tuple_combinations() {
             let distance = body_j.position - body_i.position;
-            let magnitude = squared_norm(distance).powf(-1.5);
+            let magnitude = distance.magnitude2().powf(-1.5);
 
             self.acceleration_buffer[i] += distance * (body_j.mass * magnitude);
             self.acceleration_buffer[j] -= distance * (body_i.mass * magnitude);
@@ -48,8 +47,7 @@ mod tests {
     use super::BasicUniverse;
     use crate::body::Body;
     use crate::universe::Universe;
-    use crate::utilities::squared_norm;
-    use cgmath::Vector2;
+    use cgmath::{InnerSpace, Vector2};
 
     fn get_taylor_universe() -> BasicUniverse {
         BasicUniverse::new(&[
@@ -84,6 +82,26 @@ mod tests {
     }
 
     #[test]
+    fn center_of_mass() {
+        let mut universe = get_taylor_universe();
+        let momentum_0 = universe.get_momentum();
+
+        let center_of_mass_0 = universe.get_center_of_mass();
+        let expected_center_of_mass_0 = Vector2::new(503.0 / 11.0, 529.0 / 11.0);
+
+        assert_eq!(center_of_mass_0, expected_center_of_mass_0);
+
+        for _ in 0..1000000 {
+            universe.advance(0.000001);
+        }
+
+        let center_of_mass_1 = universe.get_center_of_mass();
+        let expected_center_of_mass_1 = expected_center_of_mass_0 + momentum_0 / universe.get_mass();
+
+        assert!((center_of_mass_1 - expected_center_of_mass_1).magnitude2() < 1.0e-23);
+    }
+
+    #[test]
     fn momentum() {
         let mut universe = get_taylor_universe();
         let m0 = universe.get_momentum();
@@ -98,7 +116,7 @@ mod tests {
 
         let m1 = universe.get_momentum();
 
-        assert!(squared_norm(m1 - expected_momentum) < 1.0e-18);
+        assert!((m1 - expected_momentum).magnitude2() < 1.0e-18);
     }
 
     #[test]

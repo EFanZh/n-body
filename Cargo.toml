@@ -9,8 +9,14 @@ crate-type = ["cdylib"]
 
 [dependencies]
 cgmath = "*"
+console_error_panic_hook = "*"
 itertools = "*"
+random_color = "*"
 wasm-bindgen = "*"
+
+[dependencies.rand]
+version = "*"
+features = ["wasm-bindgen"]
 
 [dependencies.web-sys]
 version = "*"

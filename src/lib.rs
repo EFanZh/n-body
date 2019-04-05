@@ -1,11 +1,13 @@
-use cgmath::Vector2;
 use std::cell::RefCell;
+use std::panic;
 use std::rc::Rc;
 use wasm_bindgen::prelude::{wasm_bindgen, Closure};
 use wasm_bindgen::JsCast;
 use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, Window};
 
 mod basic_renderer;
+mod configuration;
+mod distributions;
 mod renderer;
 mod utilities;
 
@@ -15,9 +17,22 @@ pub mod universe;
 
 use crate::basic_renderer::BasicRenderer;
 use crate::basic_universe::BasicUniverse;
-use crate::body::Body;
+use crate::configuration::{random_configuration, Configuration};
 use crate::renderer::Renderer;
 use crate::universe::Universe;
+
+fn build_universe_and_renderer(configuration: Configuration) -> (impl Universe, impl Renderer) {
+    let universe = BasicUniverse::new(&configuration.bodies.iter().map(|b| b.body.clone()).collect::<Vec<_>>());
+
+    let renderer = BasicRenderer::new(
+        configuration.bodies.iter().map(|b| b.color.clone()).collect(),
+        configuration.bodies.iter().map(|b| b.trail_width).collect(),
+        configuration.sample_frequency,
+        &universe,
+    );
+
+    (universe, renderer)
+}
 
 fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) {
     fn do_request_animation_frame(window: &Window, f: &Closure<FnMut(f64)>) {
@@ -33,9 +48,9 @@ fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) 
         let window = window.clone();
 
         move |timestamp| {
-            f(timestamp);
-
             do_request_animation_frame(&window, closure_rc_0.borrow().as_ref().unwrap());
+
+            f(timestamp);
         }
     }) as _));
 
@@ -50,14 +65,14 @@ fn run_and_render_universe<U: Universe, R: Renderer>(
     mut universe: U,
     mut renderer: R,
 ) {
-    renderer.initialize_canvas_context(&context);
+    renderer.initialize_canvas_context(&context, canvas_width, canvas_height, &mut universe);
 
     run_animation_frame_loop(&window, move |timestamp| {
         renderer.render(timestamp, &context, canvas_width, canvas_height, &mut universe);
     });
 }
 
-fn main(window: Window, document: Document) {
+fn main(window: Window, document: Document, configuration: Configuration) {
     let (context, canvas_width, canvas_height) = {
         let canvas = document
             .get_element_by_id("canvas")
@@ -68,7 +83,7 @@ fn main(window: Window, document: Document) {
         let screen = window.screen().unwrap();
         let canvas_width = f64::from(screen.width().unwrap());
         let canvas_height = f64::from(screen.height().unwrap());
-        let dpi = window.device_pixel_ratio();
+        let dpi = window.device_pixel_ratio() * configuration.super_resolution;
 
         canvas.set_width((canvas_width * dpi).round() as _);
         canvas.set_height((canvas_height * dpi).round() as _);
@@ -91,21 +106,18 @@ fn main(window: Window, document: Document) {
         (context, canvas_width, canvas_height)
     };
 
-    let universe = BasicUniverse::new(&[
-        Body::new(40_000.0, Vector2::new(0.0, 0.0), Vector2::new(-0.8, -0.4)),
-        Body::new(1000.0, Vector2::new(160.0, 0.0), Vector2::new(0.0, 16.0)),
-        Body::new(4000.0, Vector2::new(0.0, 400.0), Vector2::new(8.0, 0.0)),
-    ]);
-
-    let renderer = BasicRenderer::new();
+    let (universe, renderer) = build_universe_and_renderer(configuration);
 
     run_and_render_universe(&window, canvas_width, canvas_height, context, universe, renderer);
 }
 
 #[wasm_bindgen(start)]
 pub fn start() {
+    panic::set_hook(Box::new(console_error_panic_hook::hook));
+
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
+    let configuration = random_configuration();
 
     if document.ready_state() == "loading" {
         document
@@ -114,12 +126,12 @@ pub fn start() {
                 Closure::once_into_js({
                     let document = document.clone();
 
-                    move || main(window, document)
+                    move || main(window, document, configuration)
                 })
                 .unchecked_ref(),
             )
             .unwrap();
     } else {
-        main(window, document);
+        main(window, document, configuration);
     }
 }
