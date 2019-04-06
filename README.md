@@ -1,3 +1,10 @@
 # N-Body
 
-Automatically generated from commit [86b88b9b954a7a1e02c2e71510be6fe152d0c56e](https://github.com/EFanZh/n-body/tree/86b88b9b954a7a1e02c2e71510be6fe152d0c56e).
+Automatically generated from commit [33a6f43f5968af7ae47433e09b2a420998b1fbf0](https://github.com/EFanZh/n-body/tree/33a6f43f5968af7ae47433e09b2a420998b1fbf0)
+([diff](https://github.com/EFanZh/n-body/commit/33a6f43f5968af7ae47433e09b2a420998b1fbf0)).
+
+Commit message:
+
+```
+Add commit message to generated README.md
+```
