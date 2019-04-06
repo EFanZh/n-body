@@ -27,5 +27,6 @@ deploy:
         condition: $TRAVIS_OS_NAME = linux
     local_dir: $GH_PAGES_TARGET_PATH
     keep_history: true
+    deployment_file: true
 notifications:
     email: false
