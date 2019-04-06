@@ -4,7 +4,7 @@ rust:
 os:
   - linux
   - osx
-  - windows
+  # - windows # Disabled for now: https://travis-ci.community/t/windows-instances-hanging-before-install/250
 env:
   - GH_PAGES_TARGET_PATH=__gh_pages
 before_install:
