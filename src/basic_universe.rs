@@ -17,6 +17,10 @@ impl BasicUniverse {
     }
 }
 
+fn pow_negative_one_half(x: f64) -> f64 {
+    (x.sqrt() * x).recip()
+}
+
 impl Universe for BasicUniverse {
     fn advance(&mut self, time: f64) {
         for a in &mut self.acceleration_buffer {
@@ -25,7 +29,7 @@ impl Universe for BasicUniverse {
 
         for ((i, body_i), (j, body_j)) in self.bodies.iter().enumerate().tuple_combinations() {
             let distance = body_j.position - body_i.position;
-            let magnitude = distance.magnitude2().powf(-1.5);
+            let magnitude = pow_negative_one_half(distance.magnitude2());
 
             self.acceleration_buffer[i] += distance * (body_j.mass * magnitude);
             self.acceleration_buffer[j] -= distance * (body_i.mass * magnitude);
@@ -44,10 +48,21 @@ impl Universe for BasicUniverse {
 
 #[cfg(test)]
 mod tests {
-    use super::BasicUniverse;
+    use super::{pow_negative_one_half, BasicUniverse};
     use crate::body::Body;
     use crate::universe::Universe;
     use cgmath::{InnerSpace, Vector2};
+
+    #[test]
+    fn check_pow_negative_one_half() {
+        let mut i = 1.0e-6;
+
+        while i < 1.0e6 {
+            assert!((pow_negative_one_half(i) - i.powf(-1.5)).abs() < 1e-6);
+
+            i *= 1.0001;
+        }
+    }
 
     fn get_taylor_universe() -> BasicUniverse {
         BasicUniverse::new(&[
