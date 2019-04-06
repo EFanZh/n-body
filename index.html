@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>N-Body</title>
+    <!-- TODO: Add `async` attribute -->
+    <script type="module">
+        import init from "./pkg/n_body.js";
+
+        init("./pkg/n_body_bg.wasm");
+    </script>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            align-items: center;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+</body>
+
+</html>
