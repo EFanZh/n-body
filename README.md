@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [7c0323a56283eb0d19d4f21dc6b674597d35438d](https://github.com/EFanZh/n-body/tree/7c0323a56283eb0d19d4f21dc6b674597d35438d)
-([diff](https://github.com/EFanZh/n-body/commit/7c0323a56283eb0d19d4f21dc6b674597d35438d)).
+Automatically generated from commit [066bc312a34c4c10368eda550e6321a7182cee02](https://github.com/EFanZh/n-body/tree/066bc312a34c4c10368eda550e6321a7182cee02)
+([diff](https://github.com/EFanZh/n-body/commit/066bc312a34c4c10368eda550e6321a7182cee02)).
 
 Commit message:
 
 ```
-Add link to online demo
+Using normalization to initialize bodies
 ```
