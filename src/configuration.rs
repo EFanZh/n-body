@@ -2,7 +2,8 @@ use crate::body::Body;
 use crate::distributions::{Circle, Reciprocal};
 use cgmath::{InnerSpace, Vector2};
 use rand::distributions::{Distribution, Standard};
-use rand::Rng;
+use rand::rngs::StdRng;
+use rand::{Rng, SeedableRng};
 
 #[derive(Clone, Debug)]
 pub struct Color {
@@ -49,7 +50,7 @@ pub struct Configuration {
     pub super_resolution: f64,
 }
 
-pub fn random_configuration() -> Configuration {
+pub fn random_configuration(seed: u64) -> Configuration {
     let min_bodies = 2;
     let max_bodies = 5;
     let min_mass = 2.0f64.powf(4.0);
@@ -59,7 +60,7 @@ pub fn random_configuration() -> Configuration {
     let position_radius = 2.0f64.powf(8.0);
     let velocity_radius = 2.0f64.powf(5.0);
 
-    let mut rng = rand::rngs::OsRng::new().unwrap(); // TODO: Update to use `thread_rng()`.
+    let mut rng = StdRng::seed_from_u64(seed);
     let mass_rng = Reciprocal::new(min_mass, max_mass);
     let position_rng = Circle::new(position_radius);
     let velocity_rng = Circle::new(velocity_radius);

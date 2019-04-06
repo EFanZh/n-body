@@ -1,3 +1,4 @@
+use rand::random;
 use std::cell::RefCell;
 use std::panic;
 use std::rc::Rc;
@@ -117,7 +118,7 @@ pub fn start() {
 
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
-    let configuration = random_configuration();
+    let configuration = random_configuration(random());
 
     if document.ready_state() == "loading" {
         document
