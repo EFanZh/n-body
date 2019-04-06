@@ -104,8 +104,9 @@ fn main(window: Window, document: Document, configuration: Configuration) {
             .unwrap();
 
         let screen = window.screen().unwrap();
-        let canvas_width = f64::from(screen.width().unwrap());
-        let canvas_height = f64::from(screen.height().unwrap());
+        let size = screen.width().unwrap().max(screen.height().unwrap());
+        let canvas_width = f64::from(size);
+        let canvas_height = canvas_width;
         let dpi = window.device_pixel_ratio() * configuration.super_resolution;
 
         canvas.set_width((canvas_width * dpi).round() as _);
