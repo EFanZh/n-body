@@ -1,0 +1,28 @@
+language: rust
+rust:
+  - nightly
+os:
+  - linux
+  - osx
+  - windows
+before_install:
+  - rustup component add clippy
+  - cargo install wasm-pack
+script:
+  - cargo clippy --verbose -- -D warnings
+  - cargo test
+  - wasm-pack build --target web
+notifications:
+    email: false
+deploy:
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    on:
+        branch: master
+        conditon: $TRAVIS_OS_NAME = linux
+    keep_history: true
+    file:
+      - pkg/n_body.js
+      - pkg/n_body_bg.wasm
+      - index.html
