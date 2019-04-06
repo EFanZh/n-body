@@ -27,6 +27,7 @@ features = [
     "History",
     "HtmlCanvasElement",
     "HtmlElement",
+    "KeyboardEvent",
     "Location",
     "Screen",
     "Window"

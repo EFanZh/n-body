@@ -4,7 +4,7 @@ use std::panic;
 use std::rc::Rc;
 use wasm_bindgen::prelude::{wasm_bindgen, Closure};
 use wasm_bindgen::{JsCast, JsValue};
-use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, Window};
+use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, KeyboardEvent, Window};
 
 mod basic_renderer;
 mod configuration;
@@ -23,6 +23,24 @@ use crate::configuration::{random_configuration, Configuration};
 use crate::renderer::Renderer;
 use crate::universe::Universe;
 use crate::url_configuration::{random_url_configuration, RenderType, UrlConfiguration};
+
+fn bind_keys(window: &Window) {
+    let closure = Closure::wrap(Box::new({
+        let window = window.clone();
+
+        move |event: KeyboardEvent| {
+            if let "n" = event.key().as_str() {
+                window.location().set_search("").unwrap();
+            }
+        }
+    }) as Box<Fn(_)>);
+
+    window
+        .add_event_listener_with_callback("keydown", closure.as_ref().unchecked_ref())
+        .unwrap();
+
+    closure.forget();
+}
 
 fn build_universe_and_renderer(configuration: Configuration) -> (impl Universe, impl Renderer) {
     let universe = BasicUniverse::new(&configuration.bodies.iter().map(|b| b.body.clone()).collect::<Vec<_>>());
@@ -76,6 +94,8 @@ fn run_and_render_universe<U: Universe, R: Renderer>(
 }
 
 fn main(window: Window, document: Document, configuration: Configuration) {
+    bind_keys(&window);
+
     let (context, canvas_width, canvas_height) = {
         let canvas = document
             .get_element_by_id("canvas")
