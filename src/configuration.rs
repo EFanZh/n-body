@@ -1,6 +1,6 @@
 use crate::body::Body;
 use crate::distributions::{Circle, Reciprocal};
-use cgmath::{InnerSpace, Vector2};
+use cgmath::Vector2;
 use rand::distributions::{Distribution, Standard};
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
@@ -50,6 +50,19 @@ pub struct Configuration {
     pub super_resolution: f64,
 }
 
+fn normalize_bodies(mut bodies: Vec<StyledBody>) -> Vec<StyledBody> {
+    let mass = bodies.iter().map(|b| b.body.mass).sum();
+    let center_of_mass = bodies.iter().map(|b| b.body.mass * b.body.position).sum::<Vector2<_>>() / mass;
+    let velocity = bodies.iter().map(|b| b.body.mass * b.body.velocity).sum::<Vector2<_>>() / mass;
+
+    for body in &mut bodies {
+        body.body.position -= center_of_mass;
+        body.body.velocity -= velocity;
+    }
+
+    bodies
+}
+
 pub fn random_configuration(seed: u64) -> Configuration {
     let min_bodies = 2;
     let max_bodies = 5;
@@ -71,42 +84,20 @@ pub fn random_configuration(seed: u64) -> Configuration {
         (max_trail_width - min_trail_width).mul_add(r, min_trail_width)
     };
 
-    let mut bodies = (0..rng.gen_range(min_bodies - 1, max_bodies))
-        .map(|_| {
-            let mass = mass_rng.sample(&mut rng);
-            let trail_width = mass_to_trail_width(mass);
+    let bodies = normalize_bodies(
+        (0..rng.gen_range(min_bodies, max_bodies + 1))
+            .map(|_| {
+                let mass = mass_rng.sample(&mut rng);
+                let trail_width = mass_to_trail_width(mass);
 
-            StyledBody {
-                body: Body::new(mass, position_rng.sample(&mut rng), velocity_rng.sample(&mut rng)),
-                color: rng.gen(),
-                trail_width,
-            }
-        })
-        .collect::<Vec<_>>();
-
-    // Generate the last body to keep the system at the center of the canvas.
-
-    bodies.push({
-        let other_bodies_mass_vector = bodies
-            .iter()
-            .map(|b| b.body.mass * b.body.position)
-            .sum::<Vector2<f64>>();
-
-        let position = -other_bodies_mass_vector.normalize() * (position_radius * rng.gen::<f64>().sqrt());
-        let mass = other_bodies_mass_vector.magnitude() / position.magnitude();
-
-        let velocity = -bodies
-            .iter()
-            .map(|b| b.body.mass * b.body.velocity)
-            .sum::<Vector2<f64>>()
-            / mass;
-
-        StyledBody {
-            body: Body::new(mass, position, velocity),
-            color: rng.gen(),
-            trail_width: mass_to_trail_width(mass),
-        }
-    });
+                StyledBody {
+                    body: Body::new(mass, position_rng.sample(&mut rng), velocity_rng.sample(&mut rng)),
+                    color: rng.gen(),
+                    trail_width,
+                }
+            })
+            .collect(),
+    );
 
     Configuration {
         bodies,
