@@ -24,7 +24,7 @@ deploy:
     github_token: $GITHUB_TOKEN
     on:
         branch: master
-        conditon: $TRAVIS_OS_NAME = linux
+        condition: $TRAVIS_OS_NAME = linux
     local_dir: $GH_PAGES_TARGET_PATH
     keep_history: true
 notifications:
