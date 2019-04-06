@@ -18,11 +18,7 @@ before_deploy:
   - mkdir -p "$GH_PAGES_TARGET_PATH/pkg"
   - cp pkg/n_body.js pkg/n_body_bg.wasm "$GH_PAGES_TARGET_PATH/pkg"
   - cp index.html "$GH_PAGES_TARGET_PATH"
-  - |
-    echo "# N-Body
-
-    Automacally generated from commit [$TRAVIS_COMMIT](https://github.com/EFanZh/n-body/tree/$TRAVIS_COMMIT).
-    " > "$GH_PAGES_TARGET_PATH/README.md"
+  - sh tools/generate-readme.sh > "$GH_PAGES_TARGET_PATH/README.md"
 deploy:
     provider: pages
     skip_cleanup: true
