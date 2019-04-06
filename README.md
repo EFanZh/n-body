@@ -1,3 +1,3 @@
 # N-Body
 
-Automacally generated from commit [c5e1b091ddb598d494dd253f3910c6b4fc70d064](https://github.com/EFanZh/n-body/tree/c5e1b091ddb598d494dd253f3910c6b4fc70d064).
+Automatically generated from commit [f73f236c9c2e8122fa27b101effb01e8dd951143](https://github.com/EFanZh/n-body/tree/f73f236c9c2e8122fa27b101effb01e8dd951143).
