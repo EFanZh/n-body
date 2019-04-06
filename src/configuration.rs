@@ -5,7 +5,7 @@ use rand::distributions::{Distribution, Standard};
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct Color {
     pub red: u8,
     pub green: u8,

@@ -3,13 +3,14 @@ use std::cell::RefCell;
 use std::panic;
 use std::rc::Rc;
 use wasm_bindgen::prelude::{wasm_bindgen, Closure};
-use wasm_bindgen::JsCast;
+use wasm_bindgen::{JsCast, JsValue};
 use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, Window};
 
 mod basic_renderer;
 mod configuration;
 mod distributions;
 mod renderer;
+mod url_configuration;
 mod utilities;
 
 pub mod basic_universe;
@@ -21,6 +22,7 @@ use crate::basic_universe::BasicUniverse;
 use crate::configuration::{random_configuration, Configuration};
 use crate::renderer::Renderer;
 use crate::universe::Universe;
+use crate::url_configuration::{random_url_configuration, RenderType, UrlConfiguration};
 
 fn build_universe_and_renderer(configuration: Configuration) -> (impl Universe, impl Renderer) {
     let universe = BasicUniverse::new(&configuration.bodies.iter().map(|b| b.body.clone()).collect::<Vec<_>>());
@@ -112,13 +114,48 @@ fn main(window: Window, document: Document, configuration: Configuration) {
     run_and_render_universe(&window, canvas_width, canvas_height, context, universe, renderer);
 }
 
+fn load_url_configuration(window: &Window) -> UrlConfiguration {
+    let history = window.history().unwrap();
+
+    let do_random_url_configuration = || {
+        let result = random_url_configuration(random());
+
+        history
+            .replace_state_with_url(
+                &JsValue::NULL,
+                "",
+                Some(&format!("?{}", serde_urlencoded::to_string(&result).unwrap())),
+            )
+            .unwrap();
+
+        result
+    };
+
+    match window.location().search() {
+        Ok(search) => match search.get(1..) {
+            Some(data) => match serde_urlencoded::from_str(data) {
+                Ok(configuration) => configuration,
+                _ => do_random_url_configuration(),
+            },
+            _ => do_random_url_configuration(),
+        },
+        _ => do_random_url_configuration(),
+    }
+}
+
+fn generate_configuration(url_configuration: UrlConfiguration) -> Configuration {
+    match url_configuration.render_type {
+        RenderType::Basic => random_configuration(url_configuration.id),
+    }
+}
+
 #[wasm_bindgen(start)]
 pub fn start() {
     panic::set_hook(Box::new(console_error_panic_hook::hook));
 
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
-    let configuration = random_configuration(random());
+    let configuration = generate_configuration(load_url_configuration(&window));
 
     if document.ready_state() == "loading" {
         document

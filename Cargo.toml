@@ -11,12 +11,10 @@ crate-type = ["cdylib"]
 cgmath = "*"
 console_error_panic_hook = "*"
 itertools = "*"
-random_color = "*"
+rand = { version = "*", features = ["wasm-bindgen"] }
+serde = { version = "*", features = ["derive"] }
+serde_urlencoded = "*"
 wasm-bindgen = "*"
-
-[dependencies.rand]
-version = "*"
-features = ["wasm-bindgen"]
 
 [dependencies.web-sys]
 version = "*"
@@ -26,10 +24,12 @@ features = [
     "Document",
     "Element",
     "EventTarget",
+    "History",
     "HtmlCanvasElement",
     "HtmlElement",
+    "Location",
     "Screen",
-    "Window",
+    "Window"
 ]
 
 [profile.release]
