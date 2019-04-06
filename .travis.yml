@@ -5,15 +5,19 @@ os:
   - linux
   - osx
   - windows
+env:
+  - GH_PAGES_TARGET_PATH=__gh_pages
 before_install:
   - rustup component add clippy
   - cargo install wasm-pack
 script:
   - cargo clippy --verbose -- -D warnings
-  - cargo test
-  - wasm-pack build --target web
-notifications:
-    email: false
+  - cargo test --verbose
+  - wasm-pack --verbose build --target web
+before_deploy:
+  - mkdir -p "$GH_PAGES_TARGET_PATH/pkg"
+  - cp pkg/n_body.js pkg/n_body_bg.wasm "$GH_PAGES_TARGET_PATH/pkg"
+  - cp index.html "$GH_PAGES_TARGET_PATH"
 deploy:
     provider: pages
     skip_cleanup: true
@@ -21,8 +25,7 @@ deploy:
     on:
         branch: master
         conditon: $TRAVIS_OS_NAME = linux
+    local_dir: $GH_PAGES_TARGET_PATH
     keep_history: true
-    file:
-      - pkg/n_body.js
-      - pkg/n_body_bg.wasm
-      - index.html
+notifications:
+    email: false
