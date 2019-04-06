@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [8f3b92e51167662664433b4dd87382c7180d8e1f](https://github.com/EFanZh/n-body/tree/8f3b92e51167662664433b4dd87382c7180d8e1f)
-([diff](https://github.com/EFanZh/n-body/commit/8f3b92e51167662664433b4dd87382c7180d8e1f)).
+Automatically generated from commit [7c0323a56283eb0d19d4f21dc6b674597d35438d](https://github.com/EFanZh/n-body/tree/7c0323a56283eb0d19d4f21dc6b674597d35438d)
+([diff](https://github.com/EFanZh/n-body/commit/7c0323a56283eb0d19d4f21dc6b674597d35438d)).
 
 Commit message:
 
 ```
-Use the same size for both width and height
+Add link to online demo
 ```
