@@ -14,7 +14,7 @@ pub struct BasicRenderer {
     sampled: u64,                           // State.
     last_body_positions: Vec<Vector2<f64>>, // State.
     last_timestamp: f64,                    // State.
-    dropped_time: f64,                      // State.
+    start_time: f64,                        // State.
 }
 
 impl BasicRenderer {
@@ -28,11 +28,11 @@ impl BasicRenderer {
             body_colors: body_colors.iter().map(|c| c.to_rgba()).collect(),
             trail_widths,
             sample_frequency: sample_frequency / 1000.0,
-            step_size: 1.0 / sample_frequency,
+            step_size: sample_frequency.recip(),
             sampled: 0,
             last_body_positions: universe.get_bodies().iter().map(|b| b.position).collect(),
             last_timestamp: 0.0,
-            dropped_time: 0.0,
+            start_time: 0.0,
         }
     }
 }
@@ -46,15 +46,19 @@ impl Renderer for BasicRenderer {
         _height: f64,
         universe: &mut U,
     ) {
-        timestamp -= self.dropped_time;
+        timestamp -= self.start_time;
+
+        // Adjust timestamp for long time running.
 
         let ellapsed_time = timestamp - self.last_timestamp;
 
         if ellapsed_time > 1000.0 {
-            self.dropped_time += ellapsed_time - 1000.0;
+            self.start_time += ellapsed_time - 1000.0;
 
             timestamp = self.last_timestamp + 1000.0;
         }
+
+        // Do drawing.
 
         let target_samples = (self.sample_frequency * timestamp) as _;
 

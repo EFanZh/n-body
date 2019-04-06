@@ -32,7 +32,7 @@ impl Distribution<Color> for Standard {
             red,
             green,
             blue,
-            alpha: 192,
+            alpha: 96,
         }
     }
 }
@@ -53,7 +53,7 @@ pub fn random_configuration() -> Configuration {
     let min_bodies = 2;
     let max_bodies = 5;
     let min_mass = 2.0f64.powf(4.0);
-    let max_mass = 2.0f64.powf(20.0);
+    let max_mass = 2.0f64.powf(24.0);
     let min_trail_width = 2.0f64.powf(-3.0);
     let max_trail_width = 2.0f64.powf(1.0);
     let position_radius = 2.0f64.powf(8.0);
@@ -65,9 +65,9 @@ pub fn random_configuration() -> Configuration {
     let velocity_rng = Circle::new(velocity_radius);
 
     let mass_to_trail_width = |mass: f64| {
-        let r = (mass / min_mass).log(max_mass / min_mass);
+        let r = (mass.log(min_mass) - 1.0) / (max_mass.log(min_mass) - 1.0);
 
-        min_trail_width + (max_trail_width - min_trail_width) * r
+        (max_trail_width - min_trail_width).mul_add(r, min_trail_width)
     };
 
     let mut bodies = (0..rng.gen_range(min_bodies - 1, max_bodies))
