@@ -26,7 +26,7 @@ use crate::configuration::{random_configuration, Configuration};
 use crate::renderer::Renderer;
 use crate::scheduler::Scheduler;
 use crate::universe::Universe;
-use crate::url_configuration::{random_url_configuration, RenderType, UrlConfiguration};
+use crate::url_configuration::{random_url_configuration, SchedulerType, UrlConfiguration};
 
 fn bind_keys(window: &Window, url_configuration: UrlConfiguration) {
     let closure = Closure::wrap(Box::new({
@@ -181,8 +181,8 @@ fn load_url_configuration(window: &Window) -> UrlConfiguration {
 }
 
 fn generate_configuration(url_configuration: UrlConfiguration) -> Configuration {
-    match url_configuration.render_type {
-        RenderType::Basic => random_configuration(url_configuration.id),
+    match url_configuration.scheduler {
+        SchedulerType::Basic => random_configuration(url_configuration.id),
     }
 }
 
