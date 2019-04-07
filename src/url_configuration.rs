@@ -3,7 +3,7 @@ use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub enum RenderType {
     Basic,
 }
@@ -14,7 +14,7 @@ impl Distribution<RenderType> for Standard {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct UrlConfiguration {
     pub render_type: RenderType,
     pub id: u64,

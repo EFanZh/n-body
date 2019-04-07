@@ -11,7 +11,7 @@
 - [ ] Adjust weight and speed range.
 - [ ] Refactor scheduler and renderer.
 - [ ] Add adaptive scheduler.
-- [ ] Optimize new run.
+- [x] Optimize new run.
 - [ ] Paint on offscreen canvas and sync to onscreen canvas.
 - [ ] Show statistics info.
 - [ ] Allow fully configuration of the run.

@@ -24,13 +24,20 @@ use crate::renderer::Renderer;
 use crate::universe::Universe;
 use crate::url_configuration::{random_url_configuration, RenderType, UrlConfiguration};
 
-fn bind_keys(window: &Window) {
+fn bind_keys(window: &Window, url_configuration: UrlConfiguration) {
     let closure = Closure::wrap(Box::new({
         let window = window.clone();
 
         move |event: KeyboardEvent| {
             if let "n" = event.key().as_str() {
-                window.location().set_search("").unwrap();
+                let mut url_configuration = url_configuration.clone();
+
+                url_configuration.id = random();
+
+                window
+                    .location()
+                    .assign(&format!("?{}", serde_urlencoded::to_string(url_configuration).unwrap()))
+                    .unwrap();
             }
         }
     }) as Box<Fn(_)>);
@@ -93,8 +100,8 @@ fn run_and_render_universe<U: Universe, R: Renderer>(
     });
 }
 
-fn main(window: Window, document: Document, configuration: Configuration) {
-    bind_keys(&window);
+fn main(window: Window, document: Document, url_configuration: UrlConfiguration, configuration: Configuration) {
+    bind_keys(&window, url_configuration);
 
     let (context, canvas_width, canvas_height) = {
         let canvas = document
@@ -176,7 +183,8 @@ pub fn start() {
 
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
-    let configuration = generate_configuration(load_url_configuration(&window));
+    let url_configuration = load_url_configuration(&window);
+    let configuration = generate_configuration(url_configuration.clone());
 
     if document.ready_state() == "loading" {
         document
@@ -185,12 +193,12 @@ pub fn start() {
                 Closure::once_into_js({
                     let document = document.clone();
 
-                    move || main(window, document, configuration)
+                    move || main(window, document, url_configuration, configuration)
                 })
                 .unchecked_ref(),
             )
             .unwrap();
     } else {
-        main(window, document, configuration);
+        main(window, document, url_configuration, configuration);
     }
 }
