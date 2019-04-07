@@ -12,3 +12,6 @@
 - [ ] Refactor scheduler and renderer.
 - [ ] Add adaptive scheduler.
 - [ ] Optimize new run.
+- [ ] Paint on offscreen canvas and sync to onscreen canvas.
+- [ ] Show statistics info.
+- [ ] Allow fully configuration of the run.
