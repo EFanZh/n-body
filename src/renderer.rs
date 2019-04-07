@@ -1,21 +1,5 @@
-use crate::universe::Universe;
-use web_sys::CanvasRenderingContext2d;
+use cgmath::Vector2;
 
 pub trait Renderer: 'static {
-    fn render<U: Universe>(
-        &mut self,
-        timestamp: f64,
-        context: &CanvasRenderingContext2d,
-        width: f64,
-        height: f64,
-        universe: &mut U,
-    );
-
-    fn initialize_canvas_context<U: Universe>(
-        &self,
-        context: &CanvasRenderingContext2d,
-        width: f64,
-        height: f64,
-        universe: &mut U,
-    );
+    fn render(&mut self, position_histories: &[Vec<Vector2<f64>>]);
 }

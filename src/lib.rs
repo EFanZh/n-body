@@ -9,18 +9,22 @@ use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, KeyboardEve
 mod basic_renderer;
 mod configuration;
 mod distributions;
-mod renderer;
 mod url_configuration;
 mod utilities;
 
+pub mod basic_scheduler;
 pub mod basic_universe;
 pub mod body;
+pub mod renderer;
+pub mod scheduler;
 pub mod universe;
 
 use crate::basic_renderer::BasicRenderer;
+use crate::basic_scheduler::BasicScheduler;
 use crate::basic_universe::BasicUniverse;
 use crate::configuration::{random_configuration, Configuration};
 use crate::renderer::Renderer;
+use crate::scheduler::Scheduler;
 use crate::universe::Universe;
 use crate::url_configuration::{random_url_configuration, RenderType, UrlConfiguration};
 
@@ -49,17 +53,25 @@ fn bind_keys(window: &Window, url_configuration: UrlConfiguration) {
     closure.forget();
 }
 
-fn build_universe_and_renderer(configuration: Configuration) -> (impl Universe, impl Renderer) {
+fn build_universe_and_renderer_and_scheduler(
+    configuration: Configuration,
+    canvas_context: CanvasRenderingContext2d,
+    width: f64,
+    height: f64,
+) -> (impl Universe, impl Renderer, impl Scheduler) {
     let universe = BasicUniverse::new(&configuration.bodies.iter().map(|b| b.body.clone()).collect::<Vec<_>>());
 
     let renderer = BasicRenderer::new(
+        canvas_context,
+        width,
+        height,
         configuration.bodies.iter().map(|b| b.color.clone()).collect(),
         configuration.bodies.iter().map(|b| b.trail_width).collect(),
-        configuration.sample_frequency,
-        &universe,
     );
 
-    (universe, renderer)
+    let scheduler = BasicScheduler::new(configuration.sample_frequency, &universe);
+
+    (universe, renderer, scheduler)
 }
 
 fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) {
@@ -85,18 +97,14 @@ fn run_animation_frame_loop<F: FnMut(f64) + 'static>(window: &Window, mut f: F) 
     do_request_animation_frame(&window, closure_rc_1.borrow().as_ref().unwrap());
 }
 
-fn run_and_render_universe<U: Universe, R: Renderer>(
+fn run_and_render_universe<U: Universe, R: Renderer, S: Scheduler>(
     window: &Window,
-    canvas_width: f64,
-    canvas_height: f64,
-    context: CanvasRenderingContext2d,
     mut universe: U,
     mut renderer: R,
+    mut scheduler: S,
 ) {
-    renderer.initialize_canvas_context(&context, canvas_width, canvas_height, &mut universe);
-
     run_animation_frame_loop(&window, move |timestamp| {
-        renderer.render(timestamp, &context, canvas_width, canvas_height, &mut universe);
+        scheduler.advance(timestamp, &mut universe, &mut renderer)
     });
 }
 
@@ -137,9 +145,10 @@ fn main(window: Window, document: Document, url_configuration: UrlConfiguration,
         (context, canvas_width, canvas_height)
     };
 
-    let (universe, renderer) = build_universe_and_renderer(configuration);
+    let (universe, renderer, scheduler) =
+        build_universe_and_renderer_and_scheduler(configuration, context, canvas_width, canvas_height);
 
-    run_and_render_universe(&window, canvas_width, canvas_height, context, universe, renderer);
+    run_and_render_universe(&window, universe, renderer, scheduler);
 }
 
 fn load_url_configuration(window: &Window) -> UrlConfiguration {

@@ -9,7 +9,7 @@
 - [ ] Limit random color range.
 - [ ] Use background worker to calculate the positions.
 - [ ] Adjust weight and speed range.
-- [ ] Refactor scheduler and renderer.
+- [x] Refactor scheduler and renderer.
 - [ ] Add adaptive scheduler.
 - [x] Optimize new run.
 - [ ] Paint on offscreen canvas and sync to onscreen canvas.
