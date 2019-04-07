@@ -411,12 +411,6 @@ function __widl_f_screen_Window(arg0, exnptr) {
 
 __exports.__widl_f_screen_Window = __widl_f_screen_Window;
 
-function __widl_f_device_pixel_ratio_Window(arg0) {
-    return getObject(arg0).devicePixelRatio;
-}
-
-__exports.__widl_f_device_pixel_ratio_Window = __widl_f_device_pixel_ratio_Window;
-
 function __wbg_newnoargs_b4526aa2a6db81de(arg0, arg1) {
     let varg0 = getStringFromWasm(arg0, arg1);
     return addHeapObject(new Function(varg0));
@@ -613,7 +607,7 @@ function __wbindgen_throw(ptr, len) {
 
 __exports.__wbindgen_throw = __wbindgen_throw;
 
-function __wbindgen_closure_wrapper95(a, b, _ignored) {
+function __wbindgen_closure_wrapper94(a, b, _ignored) {
     const f = wasm.__wbg_function_table.get(41);
     const d = wasm.__wbg_function_table.get(40);
     const cb = function(arg0) {
@@ -634,9 +628,9 @@ real.original = cb;
 return addHeapObject(real);
 }
 
-__exports.__wbindgen_closure_wrapper95 = __wbindgen_closure_wrapper95;
+__exports.__wbindgen_closure_wrapper94 = __wbindgen_closure_wrapper94;
 
-function __wbindgen_closure_wrapper102(a, b, _ignored) {
+function __wbindgen_closure_wrapper101(a, b, _ignored) {
     const f = wasm.__wbg_function_table.get(42);
     const d = wasm.__wbg_function_table.get(40);
     const cb = function(arg0) {
@@ -660,9 +654,9 @@ function __wbindgen_closure_wrapper102(a, b, _ignored) {
     return addHeapObject(real);
 }
 
-__exports.__wbindgen_closure_wrapper102 = __wbindgen_closure_wrapper102;
+__exports.__wbindgen_closure_wrapper101 = __wbindgen_closure_wrapper101;
 
-function __wbindgen_closure_wrapper111(a, b, _ignored) {
+function __wbindgen_closure_wrapper110(a, b, _ignored) {
     const f = wasm.__wbg_function_table.get(39);
     const d = wasm.__wbg_function_table.get(40);
     const cb = function() {
@@ -686,7 +680,7 @@ function __wbindgen_closure_wrapper111(a, b, _ignored) {
     return addHeapObject(real);
 }
 
-__exports.__wbindgen_closure_wrapper111 = __wbindgen_closure_wrapper111;
+__exports.__wbindgen_closure_wrapper110 = __wbindgen_closure_wrapper110;
 
 function __wbindgen_object_clone_ref(idx) {
     return addHeapObject(getObject(idx));

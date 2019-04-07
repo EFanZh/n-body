@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [4201316b3aaf35d2aaa0e472019fa72461450902](https://github.com/EFanZh/n-body/tree/4201316b3aaf35d2aaa0e472019fa72461450902)
-([diff](https://github.com/EFanZh/n-body/commit/4201316b3aaf35d2aaa0e472019fa72461450902)).
+Automatically generated from commit [b168b8d711cbe75263a959ddb6e437619bfafdb4](https://github.com/EFanZh/n-body/tree/b168b8d711cbe75263a959ddb6e437619bfafdb4)
+([diff](https://github.com/EFanZh/n-body/commit/b168b8d711cbe75263a959ddb6e437619bfafdb4)).
 
 Commit message:
 
 ```
-Rename render type to scheduler type
+Use a fixed scaling factor
 ```
