@@ -1,7 +1,7 @@
 use crate::body::Body;
 use crate::distributions::{Circle, Reciprocal};
 use cgmath::Vector2;
-use rand::distributions::{Distribution, Standard};
+use rand::distributions::{Distribution, Standard, Uniform};
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
@@ -25,16 +25,14 @@ impl Color {
     }
 }
 
-impl Distribution<Color> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Color {
-        let [red, green, blue] = rng.gen::<[u8; 3]>();
+fn random_color<R: Rng>(rng: &mut R) -> Color {
+    let distribution = Uniform::new_inclusive(64, 255);
 
-        Color {
-            red,
-            green,
-            blue,
-            alpha: 96,
-        }
+    Color {
+        red: distribution.sample(rng),
+        green: distribution.sample(rng),
+        blue: distribution.sample(rng),
+        alpha: 96,
     }
 }
 
@@ -92,7 +90,7 @@ pub fn random_configuration(seed: u64) -> Configuration {
 
                 StyledBody {
                     body: Body::new(mass, position_rng.sample(&mut rng), velocity_rng.sample(&mut rng)),
-                    color: rng.gen(),
+                    color: random_color(&mut rng),
                     trail_width,
                 }
             })

@@ -6,7 +6,7 @@
 
 ## Roadmap
 
-- [ ] Limit random color range.
+- [x] Limit random color range.
 - [ ] Use background worker to calculate the positions.
 - [ ] Adjust weight and speed range.
 - [x] Refactor scheduler and renderer.
