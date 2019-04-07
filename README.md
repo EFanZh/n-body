@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [0558e496eb5614f9a3c88f6ec93881388ef5eff7](https://github.com/EFanZh/n-body/tree/0558e496eb5614f9a3c88f6ec93881388ef5eff7)
-([diff](https://github.com/EFanZh/n-body/commit/0558e496eb5614f9a3c88f6ec93881388ef5eff7)).
+Automatically generated from commit [53e1c9b50aa9a74cbd4582aee3b4ec381e990eb0](https://github.com/EFanZh/n-body/tree/53e1c9b50aa9a74cbd4582aee3b4ec381e990eb0)
+([diff](https://github.com/EFanZh/n-body/commit/53e1c9b50aa9a74cbd4582aee3b4ec381e990eb0)).
 
 Commit message:
 
 ```
-Add description and repository info to cargo.toml
+Create LICENSE
 ```
