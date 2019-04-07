@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [91a5fddbc0f8a28b6b86dcc65b88454a4f63f04e](https://github.com/EFanZh/n-body/tree/91a5fddbc0f8a28b6b86dcc65b88454a4f63f04e)
-([diff](https://github.com/EFanZh/n-body/commit/91a5fddbc0f8a28b6b86dcc65b88454a4f63f04e)).
+Automatically generated from commit [4201316b3aaf35d2aaa0e472019fa72461450902](https://github.com/EFanZh/n-body/tree/4201316b3aaf35d2aaa0e472019fa72461450902)
+([diff](https://github.com/EFanZh/n-body/commit/4201316b3aaf35d2aaa0e472019fa72461450902)).
 
 Commit message:
 
 ```
-Remove unused imports
+Rename render type to scheduler type
 ```
