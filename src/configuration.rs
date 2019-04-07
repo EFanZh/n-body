@@ -1,7 +1,7 @@
 use crate::body::Body;
 use crate::distributions::{Circle, Reciprocal};
 use cgmath::Vector2;
-use rand::distributions::{Distribution, Standard, Uniform};
+use rand::distributions::{Distribution, Uniform};
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 
