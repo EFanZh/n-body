@@ -18,3 +18,4 @@
 - [ ] Allow collision.
 - [ ] Support 3D space.
 - [ ] Add position and velocity indicator.
+- [ ] Consider the universe as a hypersurface of a hypersphere in 4D.
