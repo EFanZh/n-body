@@ -45,7 +45,6 @@ pub struct StyledBody {
 pub struct Configuration {
     pub bodies: Vec<StyledBody>,
     pub sample_frequency: f64,
-    pub super_resolution: f64,
 }
 
 fn normalize_bodies(mut bodies: Vec<StyledBody>) -> Vec<StyledBody> {
@@ -100,6 +99,5 @@ pub fn random_configuration(seed: u64) -> Configuration {
     Configuration {
         bodies,
         sample_frequency: 1_000_000.0,
-        super_resolution: 2.0,
     }
 }

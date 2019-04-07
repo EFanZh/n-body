@@ -122,10 +122,10 @@ fn main(window: Window, document: Document, url_configuration: UrlConfiguration,
         let size = screen.width().unwrap().max(screen.height().unwrap());
         let canvas_width = f64::from(size);
         let canvas_height = canvas_width;
-        let dpi = window.device_pixel_ratio() * configuration.super_resolution;
+        let scale = 3.0;
 
-        canvas.set_width((canvas_width * dpi).round() as _);
-        canvas.set_height((canvas_height * dpi).round() as _);
+        canvas.set_width((canvas_width * scale).round() as _);
+        canvas.set_height((canvas_height * scale).round() as _);
 
         let style = canvas.style();
 
@@ -139,7 +139,7 @@ fn main(window: Window, document: Document, url_configuration: UrlConfiguration,
             .dyn_into::<CanvasRenderingContext2d>()
             .unwrap();
 
-        context.scale(dpi, dpi).unwrap();
+        context.scale(scale, scale).unwrap();
         context.translate(canvas_width * 0.5, canvas_height * 0.5).unwrap();
 
         (context, canvas_width, canvas_height)
