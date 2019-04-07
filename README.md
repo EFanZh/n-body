@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [b4f45564e04fc3fcd8024eccfa63dd3c4fd2057d](https://github.com/EFanZh/n-body/tree/b4f45564e04fc3fcd8024eccfa63dd3c4fd2057d)
-([diff](https://github.com/EFanZh/n-body/commit/b4f45564e04fc3fcd8024eccfa63dd3c4fd2057d)).
+Automatically generated from commit [0558e496eb5614f9a3c88f6ec93881388ef5eff7](https://github.com/EFanZh/n-body/tree/0558e496eb5614f9a3c88f6ec93881388ef5eff7)
+([diff](https://github.com/EFanZh/n-body/commit/0558e496eb5614f9a3c88f6ec93881388ef5eff7)).
 
 Commit message:
 
 ```
-Refactor scheduler and renderer
+Add description and repository info to cargo.toml
 ```
