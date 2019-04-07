@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [3481d6e6e0c44690af2755e0688fb7a6559406d4](https://github.com/EFanZh/n-body/tree/3481d6e6e0c44690af2755e0688fb7a6559406d4)
-([diff](https://github.com/EFanZh/n-body/commit/3481d6e6e0c44690af2755e0688fb7a6559406d4)).
+Automatically generated from commit [91a5fddbc0f8a28b6b86dcc65b88454a4f63f04e](https://github.com/EFanZh/n-body/tree/91a5fddbc0f8a28b6b86dcc65b88454a4f63f04e)
+([diff](https://github.com/EFanZh/n-body/commit/91a5fddbc0f8a28b6b86dcc65b88454a4f63f04e)).
 
 Commit message:
 
 ```
-Add license info to Cargo.toml
+Remove unused imports
 ```
