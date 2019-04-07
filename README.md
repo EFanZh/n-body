@@ -15,3 +15,4 @@
 - [ ] Paint on offscreen canvas and sync to onscreen canvas.
 - [ ] Show statistics info.
 - [ ] Allow fully configuration of the run.
+- [ ] Allow collision.
