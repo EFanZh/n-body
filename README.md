@@ -17,3 +17,4 @@
 - [ ] Allow fully configuration of the run.
 - [ ] Allow collision.
 - [ ] Support 3D space.
+- [ ] Add position and velocity indicator.
