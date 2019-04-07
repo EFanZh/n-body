@@ -3,6 +3,8 @@ name = "n-body"
 version = "0.1.0"
 authors = ["EFanZh <efanzh@gmail.com>"]
 edition = "2018"
+description = "Simulates the n-body problem."
+repository = "https://github.com/EFanZh/n-body"
 
 [lib]
 crate-type = ["cdylib"]
