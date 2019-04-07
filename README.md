@@ -16,3 +16,4 @@
 - [ ] Show statistics info.
 - [ ] Allow fully configuration of the run.
 - [ ] Allow collision.
+- [ ] Support 3D space.
