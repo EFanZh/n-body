@@ -315,6 +315,17 @@ function __widl_f_key_KeyboardEvent(ret, arg0) {
 
 __exports.__widl_f_key_KeyboardEvent = __widl_f_key_KeyboardEvent;
 
+function __widl_f_assign_Location(arg0, arg1, arg2, exnptr) {
+    let varg1 = getStringFromWasm(arg1, arg2);
+    try {
+        getObject(arg0).assign(varg1);
+    } catch (e) {
+        handleError(exnptr, e);
+    }
+}
+
+__exports.__widl_f_assign_Location = __widl_f_assign_Location;
+
 function __widl_f_search_Location(ret, arg0, exnptr) {
     try {
 
@@ -330,17 +341,6 @@ function __widl_f_search_Location(ret, arg0, exnptr) {
 }
 
 __exports.__widl_f_search_Location = __widl_f_search_Location;
-
-function __widl_f_set_search_Location(arg0, arg1, arg2, exnptr) {
-    let varg1 = getStringFromWasm(arg1, arg2);
-    try {
-        getObject(arg0).search = varg1;
-    } catch (e) {
-        handleError(exnptr, e);
-    }
-}
-
-__exports.__widl_f_set_search_Location = __widl_f_set_search_Location;
 
 function __widl_f_width_Screen(arg0, exnptr) {
     try {
@@ -613,9 +613,9 @@ function __wbindgen_throw(ptr, len) {
 
 __exports.__wbindgen_throw = __wbindgen_throw;
 
-function __wbindgen_closure_wrapper88(a, b, _ignored) {
-    const f = wasm.__wbg_function_table.get(40);
-    const d = wasm.__wbg_function_table.get(39);
+function __wbindgen_closure_wrapper96(a, b, _ignored) {
+    const f = wasm.__wbg_function_table.get(41);
+    const d = wasm.__wbg_function_table.get(40);
     const cb = function(arg0) {
         this.cnt++;
         try {
@@ -634,11 +634,11 @@ real.original = cb;
 return addHeapObject(real);
 }
 
-__exports.__wbindgen_closure_wrapper88 = __wbindgen_closure_wrapper88;
+__exports.__wbindgen_closure_wrapper96 = __wbindgen_closure_wrapper96;
 
-function __wbindgen_closure_wrapper95(a, b, _ignored) {
-    const f = wasm.__wbg_function_table.get(41);
-    const d = wasm.__wbg_function_table.get(39);
+function __wbindgen_closure_wrapper102(a, b, _ignored) {
+    const f = wasm.__wbg_function_table.get(42);
+    const d = wasm.__wbg_function_table.get(40);
     const cb = function(arg0) {
         this.cnt++;
         let a = this.a;
@@ -660,11 +660,11 @@ function __wbindgen_closure_wrapper95(a, b, _ignored) {
     return addHeapObject(real);
 }
 
-__exports.__wbindgen_closure_wrapper95 = __wbindgen_closure_wrapper95;
+__exports.__wbindgen_closure_wrapper102 = __wbindgen_closure_wrapper102;
 
-function __wbindgen_closure_wrapper114(a, b, _ignored) {
-    const f = wasm.__wbg_function_table.get(38);
-    const d = wasm.__wbg_function_table.get(39);
+function __wbindgen_closure_wrapper110(a, b, _ignored) {
+    const f = wasm.__wbg_function_table.get(39);
+    const d = wasm.__wbg_function_table.get(40);
     const cb = function() {
         this.cnt++;
         let a = this.a;
@@ -686,7 +686,7 @@ function __wbindgen_closure_wrapper114(a, b, _ignored) {
     return addHeapObject(real);
 }
 
-__exports.__wbindgen_closure_wrapper114 = __wbindgen_closure_wrapper114;
+__exports.__wbindgen_closure_wrapper110 = __wbindgen_closure_wrapper110;
 
 function __wbindgen_object_clone_ref(idx) {
     return addHeapObject(getObject(idx));

@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [01c058a20244b558080406c0da2ec4dbae6082f4](https://github.com/EFanZh/n-body/tree/01c058a20244b558080406c0da2ec4dbae6082f4)
-([diff](https://github.com/EFanZh/n-body/commit/01c058a20244b558080406c0da2ec4dbae6082f4)).
+Automatically generated from commit [207144e37ff371f07a98a7f2c0fe76e205549a0b](https://github.com/EFanZh/n-body/tree/207144e37ff371f07a98a7f2c0fe76e205549a0b)
+([diff](https://github.com/EFanZh/n-body/commit/207144e37ff371f07a98a7f2c0fe76e205549a0b)).
 
 Commit message:
 
 ```
-Consider the shape of the universe later
+Optimize new run
 ```
