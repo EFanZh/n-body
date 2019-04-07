@@ -1,10 +1,10 @@
 # N-Body
 
-Automatically generated from commit [066bc312a34c4c10368eda550e6321a7182cee02](https://github.com/EFanZh/n-body/tree/066bc312a34c4c10368eda550e6321a7182cee02)
-([diff](https://github.com/EFanZh/n-body/commit/066bc312a34c4c10368eda550e6321a7182cee02)).
+Automatically generated from commit [12f1d6e05dd8466eacddb1edd04a357cc781efad](https://github.com/EFanZh/n-body/tree/12f1d6e05dd8466eacddb1edd04a357cc781efad)
+([diff](https://github.com/EFanZh/n-body/commit/12f1d6e05dd8466eacddb1edd04a357cc781efad)).
 
 Commit message:
 
 ```
-Using normalization to initialize bodies
+Add roadmap
 ```
